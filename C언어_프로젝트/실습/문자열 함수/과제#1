@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <string.h>
+
+#define TOKEN ", "
+
+int main() {
+	char string[101];
+	char* input;
+	char* token;
+
+	char storage[100];
+
+
+
+	printf("학번, 이름, 전화번호를 입력해주세요.");
+	input = gets(string);
+
+	if (input == NULL)
+	{
+		printf("내용을 입력하세요.");
+	}
+
+	token = strtok(string, TOKEN);
+	int i = 1;
+
+	while (token != NULL)
+	{
+		
+		storage[i] = *token;
+		i=i+10;
+
+
+		token = strtok(NULL, TOKEN);
+
+	}
+
+	printf("%s", storage);
+	
