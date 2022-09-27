@@ -36,29 +36,38 @@ int main() {
 
 	char* ret;
 
-		ret = strchr(token3, FIND_CHAR);
+	ret = strchr(token3, FIND_CHAR);
 
-		if (ret == NULL) {
-			printf("%s", token3);
+	if (ret == NULL) {
+		printf("%s", token3);
+	}
+
+	else {
+		char numbertmp[15];
+
+
+		for (int i = 0; i < 3; i++) {
+			numbertmp[i] = *(token3 + i);
+			printf("%c", numbertmp[i]);
 		}
-		
-		/*else {
-			char numbertmp[15];
-			numbertmp[15] = token3;
 
-			for (int i = 0; i < 3; i++)
-				printf("%c", numbertmp[i]);
-
-		*/
-
-			// printf("%d", ret-token3);
-			/*
-			char* token3_1 = strtok(token3, "-");
-			printf("%s", token3_1);
-			*/
-
-			// char* token3_1=strtok(token3_1,"-")
+		for (int i = 4; i < 11; i++) {
+			numbertmp[i] = *(token3 + i);
+			printf("%c", numbertmp[i]);
 		}
+
+
 
 	
+
+	// printf("%d", ret-token3);
+	/*
+	char* token3_1 = strtok(token3, "-");
+	printf("%s", token3_1);
+	*/
+
+	// char* token3_1=strtok(token3_1,"-")
+}
+
+
 }
