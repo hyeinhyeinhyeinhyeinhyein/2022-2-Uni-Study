@@ -370,16 +370,160 @@ void main() {
 		/*=============================이름으로 시작=============================*/
 		else {
 
-
-
 			/*=============================이름-전화번호-주소=============================*/
 			if (line[9]=='0'|| line[9] == '1'||line[9] =='2'|| line[9] == '3' || line[9] == '4'|| line[9] == '5' || line[9] == '6' || line[9] == '7' || line[9] == '8' || line[9] == '9') {
-				printf("이름-전화번호\n");
+
+				// 이름 저장하기
+				// 이름(6) 띄어쓰기(1) 전화번호(11) 널문자(1)
+				for (int number = 0; number <= 6; number++) {
+					name[u] = line[number];
+					u++;
+				}
+
+				// 전번 저장
+				char temp_phonenumber[14]; // 임시로 전화번호를 저장해놓을 문자배열, 배열 크기가 14인 이유: 번호 11자리, -도 2개 있고, NULL값 하나 
+				int r = 0; // temp_phonenumber에 전화번호를 저장할 때 필요한 인덱스 숫자 
+
+				for (int number = 7; number <= 20; number++) {
+					temp_phonenumber[r] = line[number];
+					r++;
+				}
+				temp_phonenumber[13] = NULL;
+
+				// 주소 저장하기 + 주소 길이 계산
+				for (int number = 21; number <= number_of_characters; number++) {
+					address[m] = line[number];
+					m++;
+					number_of_address++;
+				}
+
+				
+
+				token1 = strtok(temp_phonenumber, TOKEN);
+				printf("%s", token1);
+
+				for (i = 0; i < strlen(token1); i++) {
+					number_token[i] = token1[i];
+				}
+				int j = i; //다음에 number_token에 저장할 때 [i]첨자부터 시작해 저장하려고!
+
+
+				token2 = strtok(NULL, TOKEN);
+				printf("%s", token2);
+
+
+				int ii = 0;
+				for (i = j; i < j + strlen(token2); i++) {
+					number_token[i] = token2[ii];
+					ii++;
+				}
+				int k = j + strlen(token2);
+
+
+				ii = 0;
+				token3 = strtok(NULL, TOKEN);
+				printf("%s", token3);
+				for (i = k; i < k + strlen(token3); i++) {
+					number_token[i] = token3[ii];
+					ii++;
+				}
+
+				printf("\n");
+
+				//이름 출력
+				printf("name에 저장된 이름: ");
+				for (int i = 0; i <= 6; i++)
+					printf("%c", name[i]);
+				printf("\n");
+
+				// 주소 출력
+				printf("address에 저장된 주소: ");
+				for (int i = 0; i <= number_of_characters - 21; i++)
+					printf("%c", address[i]);
+				printf("\n");
+
+				// 전화번호 출력
+				printf("number_toekn에 저장된 전화번호: %s\n", number_token);
+
+				
 			}
 
-			/*=============================이름--주소-전화번호=============================*/
+			/*=============================이름-주소-전화번호=============================*/
 			else
 			{
+				// 이름 저장하기
+				// 이름(6) 띄어쓰기(1) 전화번호(11) 널문자(1)
+				for (int number = 0; number <= 6; number++) {
+					name[u] = line[number];
+					u++;
+				}
+
+				
+				// 주소 저장하기 + 주소 길이 계산
+				for (int number = 22; number <= number_of_characters; number++) {
+					address[m] = line[number];
+					m++;
+					number_of_address++;
+				}
+
+				// 전번 저장
+				char temp_phonenumber[14]; // 임시로 전화번호를 저장해놓을 문자배열, 배열 크기가 14인 이유: 번호 11자리, -도 2개 있고, NULL값 하나 
+				int r = 0; // temp_phonenumber에 전화번호를 저장할 때 필요한 인덱스 숫자 
+
+				for (int number = number_of_characters - 13; number < number_of_characters; number++) {
+					temp_phonenumber[r] = line[number];
+					r++;
+				}
+				temp_phonenumber[13] = NULL;
+
+
+
+
+				token1 = strtok(temp_phonenumber, TOKEN);
+				printf("%s", token1);
+
+				for (i = 0; i < strlen(token1); i++) {
+					number_token[i] = token1[i];
+				}
+				int j = i; //다음에 number_token에 저장할 때 [i]첨자부터 시작해 저장하려고!
+
+
+				token2 = strtok(NULL, TOKEN);
+				printf("%s", token2);
+
+
+				int ii = 0;
+				for (i = j; i < j + strlen(token2); i++) {
+					number_token[i] = token2[ii];
+					ii++;
+				}
+				int k = j + strlen(token2);
+
+
+				ii = 0;
+				token3 = strtok(NULL, TOKEN);
+				printf("%s", token3);
+				for (i = k; i < k + strlen(token3); i++) {
+					number_token[i] = token3[ii];
+					ii++;
+				}
+
+				printf("\n");
+
+				//이름 출력
+				printf("name에 저장된 이름: ");
+				for (int i = 0; i <= 6; i++)
+					printf("%c", name[i]);
+				printf("\n");
+
+				// 주소 출력
+				printf("address에 저장된 주소: ");
+				for (int i = 0; i <= number_of_characters - 21; i++)
+					printf("%c", address[i]);
+				printf("\n");
+
+				// 전화번호 출력
+				printf("number_toekn에 저장된 전화번호: %s\n", number_token);
 
 			}
 
