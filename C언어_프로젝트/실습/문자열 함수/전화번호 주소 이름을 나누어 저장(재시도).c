@@ -26,10 +26,10 @@ void main() {
 	gets(line); // gets함수로 정보를 입력 받음
 
 
-	 // line에 실제로 저장된 글자수 
+	 // line에 실제로 저장된 글자수 >> byte 크기, 위치X
 	int number_of_characters = 0;
 	for (int number = 0; number < 100; number++) {
-		if (line[number] != NULL)	// 문자배열에서 마지막은 NULL이니 NULL 만날 때까지 배열에 문자가 몇 개 있는지 세는 거임
+		if (line[number] != NULL)	
 			number_of_characters++;
 		else break;
 	}
@@ -69,7 +69,7 @@ void main() {
 
 
 	// 전화번호로 시작하는지 확인(숫자로 시작하는지 확인하면 됨)
-	if (isdigit(line[1])) {
+	if (line[0] == '0'|| line[0] == '1' || line[0] == '2' || line[0] == '3' || line[0] == '4' || line[0] == '5' || line[0] == '6' || line[0] == '7' || line[0] == '8' || line[0] == '9') {
 
 		// 전화번호를 공백없이 출력하기
 		// 조건: 전화번호 구분자가 무조건 2개 
@@ -199,12 +199,13 @@ void main() {
 		// 주소로 시작하는지 확인
 		// 주소로 시작하는 것이 맞다면,
 		/*=============================주소로 시작=============================*/
-		if (city1 - line == 0 || city2 - line == 0 ||city3 - line == 0 || city4 - line == 0 || city5 - line == 0 || city6 - line == 0 || city7 - line == 0 || city8 - line == 0 || city9 - line == 0 || city10 - line == 0 || city11 - line == 14 || city12 - line == 0 || city13 - line == 0 || city14 - line == 0) {
+		if (city1 - line == 0 || city2 - line == 0 || city3 - line == 0 || city4 - line == 0 || city5 - line == 0 || city6 - line == 0 || city7 - line == 0 || city8 - line == 0 || city9 - line == 0 || city10 - line == 0 || city11 - line == 14 || city12 - line == 0 || city13 - line == 0 || city14 - line == 0) {
 
 			// 주소-이름-전화번호인지 확인
 			// 가장 마지막에 써진 문자가 숫자면 주소-이름-전화번호 확정
 			/*=============================주소-이름-전화번호=============================*/
-			if (isdigit(line[number_of_characters])) {
+			if (line[number_of_characters-1] == '0' || line[number_of_characters-1] == '1' || line[number_of_characters-1] == '2' || line[number_of_characters-1]=='3' || line[number_of_characters-1] == '4' || line[number_of_characters-1] == '5' || line[number_of_characters-1] == '6' || line[number_of_characters-1] == '7' || line[number_of_characters-1] == '8' || line[number_of_characters-1] == '9') {
+
 
 				// 주소 저장하기 + 주소 길이 계산
 				//띄어쓰기(1) 이름(6) 띄어쓰기(1) 전화번호(11) 널문자(1) 
@@ -217,19 +218,21 @@ void main() {
 
 				// 이름 저장하기
 				// 이름(6) 띄어쓰기(1) 전화번호(11) 널문자(1)
-				for (int number = number_of_characters - 19; number <= number_of_characters - 13; number++) {
+				for (int number = number_of_characters - 20; number <= number_of_characters - 14; number++) {
 					name[u] = line[number];
 					u++;
 				}
 
 				// 전번 저장
-				char temp_phonenumber[12]; // 임시로 전화번호를 저장해놓을 문자배열
+				char temp_phonenumber[14]; // 임시로 전화번호를 저장해놓을 문자배열, 배열 크기가 14인 이유: 번호 11자리, -도 2개 있고, NULL값 하나 
 				int r = 0; // temp_phonenumber에 전화번호를 저장할 때 필요한 인덱스 숫자 
 
-				for (int number = number_of_characters - 12; number <= number_of_characters; number++) {
+				for (int number = number_of_characters - 13; number < number_of_characters; number++) {
 					temp_phonenumber[r] = line[number];
-					u++;
+					r++;
 				}
+
+				temp_phonenumber[13] = NULL;
 
 				token1 = strtok(temp_phonenumber, TOKEN);
 				printf("%s", token1);
@@ -260,6 +263,7 @@ void main() {
 					ii++;
 				}
 
+				printf("\n");
 
 				//이름 출력
 				printf("name에 저장된 이름: ");
@@ -277,25 +281,90 @@ void main() {
 				printf("number_toekn에 저장된 전화번호: %s\n", number_token);
 
 			}
-		
+
 			/*=============================주소-전화번호-이름=============================*/
 			else {
 
+				// 주소 저장하기 + 주소 길이 계산
+				// 주소(?) 띄어쓰기(1) 전화번호(13) 띄어쓰기(1) 이름(6) 널문자(1)
+				for (int number = 0; number <= number_of_characters - 22; number++) {
+					address[m] = line[number];
+					m++;
+					number_of_address++;
+				}
+
+
+				// 이름 저장하기
+				// 이름(3*2=6) 널문자(1)
+				for (int number = number_of_characters-6; number <= number_of_characters - 1; number++) {
+					name[u] = line[number];
+					u++;
+				}
+
+				// 전번 저장
+				// 전화번호(13) 띄어쓰기(1) 이름(6) 널문자(1)
+				char temp_phonenumber[14]; // 임시로 전화번호를 저장해놓을 문자배열, 배열 크기가 14인 이유: 번호 11자리, -도 2개 있고, NULL값 하나 
+				int r = 0; // temp_phonenumber에 전화번호를 저장할 때 필요한 인덱스 숫자 
+
+				for (int number = number_of_characters - 20; number <= number_of_characters-8; number++) {
+					temp_phonenumber[r] = line[number];
+					r++;
+				}
+
+				temp_phonenumber[13] = NULL;
+
+				token1 = strtok(temp_phonenumber, TOKEN);
+				printf("%s", token1);
+
+				for (i = 0; i < strlen(token1); i++) {
+					number_token[i] = token1[i];
+				}
+				int j = i; //다음에 number_token에 저장할 때 [i]첨자부터 시작해 저장하려고!
+
+
+				token2 = strtok(NULL, TOKEN);
+				printf("%s", token2);
+
+
+				int ii = 0;
+				for (i = j; i < j + strlen(token2); i++) {
+					number_token[i] = token2[ii];
+					ii++;
+				}
+				int k = j + strlen(token2);
+
+
+				ii = 0;
+				token3 = strtok(NULL, TOKEN);
+				printf("%s", token3);
+				for (i = k; i < k + strlen(token3); i++) {
+					number_token[i] = token3[ii];
+					ii++;
+				}
+
+				printf("\n");
+
+				//이름 출력
+				printf("name에 저장된 이름: ");
+				for (int i = 0; i <= 6; i++)
+					printf("%c", name[i]);
+				printf("\n");
+
+				// 전화번호 출력
+				printf("number_toekn에 저장된 전화번호: %s\n", number_token);
+
+				// 주소 출력
+				printf("address에 저장된 주소: ");
+				for (int i = 0; i <= number_of_characters - 21; i++)
+					printf("%c", address[i]);
+				printf("\n");
+
+				
+				
+
+				printf("주소 글자 수: %d\n", number_of_address);
+
 			}
-
-
-
-
-
-			for (int number = 14; number <= number_of_characters - 8; number++) {
-				// null문자(1), 이름 (3*2=6), 띄어쓰기(1) 전까지 주소가 저장되어있음
-
-				address[m] = line[number]; // line에서 받은 주소를 주소 배열에 저장하기 
-				m++;
-				number_of_address++; // 주소 몇 글자인지
-			}
-
-			printf("주소 글자 수: %d\n", number_of_address);
 		}
 
 		/*=============================이름으로 시작=============================*/
@@ -304,7 +373,7 @@ void main() {
 
 
 			/*=============================이름-전화번호-주소=============================*/
-			if (isdigit(line[9])) {
+			if (line[9]=='0'|| line[9] == '1'||line[9] =='2'|| line[9] == '3' || line[9] == '4'|| line[9] == '5' || line[9] == '6' || line[9] == '7' || line[9] == '8' || line[9] == '9') {
 				printf("이름-전화번호\n");
 			}
 
