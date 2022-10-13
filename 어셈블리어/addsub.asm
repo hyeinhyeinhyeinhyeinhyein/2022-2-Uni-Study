@@ -15,6 +15,11 @@ main PROC
 	sub al, 1
 	call	DumpRegs ;CF=1 
                   ;sub명령어는 carry가 없어야 CF=1
+		  
+	mov al, 0
+	dec al
+	call	DumpRegs ;CF=0
+			;dec명령어는 CF에 영향을 미치지 않는다
 
 exit
 main ENDP
