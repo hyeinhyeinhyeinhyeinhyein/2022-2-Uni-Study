@@ -10,7 +10,6 @@ main PROC
 	add al, -1
 	call	DumpRegs ;CF=0
 
-
 	mov al, 0
 	sub al, 1
 	call	DumpRegs ;CF=1 
