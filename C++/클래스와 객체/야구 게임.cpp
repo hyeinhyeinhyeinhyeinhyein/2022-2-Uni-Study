@@ -93,7 +93,7 @@ void Game::playgame() {
 		cout << user_answer[0] << user_answer[1] << user_answer[2] << ": " << strike << "스트라이크 " << ball << "볼";
 		cout << "\n============================\n" << "\n";
 
-		score++; // 실행횟수 증가
+		score++; // 사용자가 입력한 수에 대해 결과까지 나왔으니 실행횟수 증가
 	};
 }
 
