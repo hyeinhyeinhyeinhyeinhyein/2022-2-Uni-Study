@@ -12,7 +12,7 @@ public:
 	int user_answer[3]; // string으로 입력받은 숫자를 나눠서 배열에 저장 
 
 private:
-	int score = 1; // 사용자의 게임 횟수(사용자가 숫자를 몇 번 입력했는지)
+	int score = 0; // 사용자의 게임 횟수(사용자가 숫자를 몇 번 입력했는지)
 	int strike = 0; // 사용자의 스트라이크 수
 	int ball = 0; // 사용자의  볼 
 
@@ -79,6 +79,8 @@ void Game::playgame() {
 				}
 			}
 		}
+		
+		score++; // 실행횟수 증가 
 
 		// 숫자를 모두 맞췄을 때는 3스트라이크라는 것을 이용해 프로그램 종료 
 		if (strike == 3) { 
@@ -93,7 +95,7 @@ void Game::playgame() {
 		cout << user_answer[0] << user_answer[1] << user_answer[2] << ": " << strike << "스트라이크 " << ball << "볼";
 		cout << "\n============================\n" << "\n";
 
-		score++; // 사용자가 입력한 수에 대해 결과까지 나왔을 때 실행횟수 증가 -> 그래서 score의 초깃값이 1
+		
 	};
 }
 
