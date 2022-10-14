@@ -1,3 +1,6 @@
+// 클래스로 야구게임 만들기
+// 조건: 서로 다른 3개의 수로 정답이 구성되어야 함
+
 #include <iostream>
 #include <cstring>
 #include <stdlib.h> // rand함수 사용 
@@ -9,7 +12,7 @@ public:
 	Game(); // 생성자함수
 
 	string input_answer; // 사용자가 입력한 숫자를 저장
-	int user_answer[3]; // string으로 입력받은 숫자를 나눠서 배열에 저장 
+	int user_answer[4]; // string으로 입력받은 숫자를 나눠서 배열에 저장 
 
 private:
 	int score = 0; // 사용자의 게임 횟수(사용자가 숫자를 몇 번 입력했는지)
@@ -21,7 +24,7 @@ private:
 	int answer2 = rand() % 10; // 두 번째 난수 문자 
 	int answer3 = rand() % 10; // 세 번째 난수 문자 
 
-	int answer[3] = { answer1,answer2,answer3 }; // 난수로 발생된 숫자(배열)
+	int answer[4] = { answer1,answer2,answer3 }; // 위에서 생성된 난수를 숫자배열로 만듦
 
 public:
 	void playgame(); // 사용자가 야구 게임을 하는 메서드
@@ -52,17 +55,19 @@ void Game::playgame() {
 
 	// 사용자가 정답을 맞출 때까지 무한 반복(숫자 입력받고 스트라이크볼 알려주기를 반복)
 	while (1) {
+		
+		// 사용자에게 3자리 숫자를 입력 받음
+		cout << "3자리 숫자를 입력하세요: ";
+		cin >> input_answer;
+		user_answer[0] = input_answer[0] - '0'; // string으로 입력받은 숫자를 모습 그대로 int형으로 바꾸고 싶으면 문자0의 아스키코드를 빼주면 된다.
+		user_answer[1] = input_answer[1] - '0';
+		user_answer[2] = input_answer[2] - '0';
 
+		// exit를 입력하면 프로그램 종료
 		if (input_answer[0] == 'e' && input_answer[1] == 'x' && input_answer[2] == 'i' && input_answer[3] == 't') {
 			cout << "프로그램이 종료되었습니다.";
 			break;
 		}
-
-		cout << "3자리 숫자를 입력하세요: ";
-		cin >> input_answer;
-		user_answer[0] = input_answer[0] - '0';
-		user_answer[1] = input_answer[1] - '0';
-		user_answer[2] = input_answer[2] - '0';
 
 		strike = 0; // 스트라이크 수
 		ball = 0;   // 볼 수
@@ -79,8 +84,8 @@ void Game::playgame() {
 				}
 			}
 		}
-		
-		score++; // 실행횟수 증가 
+
+		score++; // 실행횟수 증가
 
 		// 숫자를 모두 맞췄을 때는 3스트라이크라는 것을 이용해 프로그램 종료 
 		if (strike == 3) { 
@@ -95,7 +100,7 @@ void Game::playgame() {
 		cout << user_answer[0] << user_answer[1] << user_answer[2] << ": " << strike << "스트라이크 " << ball << "볼";
 		cout << "\n============================\n" << "\n";
 
-		
+
 	};
 }
 
