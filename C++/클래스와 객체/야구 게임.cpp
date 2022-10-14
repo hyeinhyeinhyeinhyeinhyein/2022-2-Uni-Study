@@ -2,7 +2,7 @@
 // 조건: 서로 다른 3개의 수로 정답이 구성되어야 함
 
 #include <iostream>
-#include <cstring>
+#include <cstring> // string 이용
 #include <stdlib.h> // rand함수 사용 
 #include <time.h> // rand의 seed 기준을 현재 시간으로 잡아 난수를 매 실행마다 다르게 설정 
 using namespace std;
