@@ -9,27 +9,22 @@ using namespace std;
 
 class User {
 public:
-	User(); // 생성자함수
 	void playgame(); // 사용자가 야구 게임을 하는 메서드
 
 private:
 	string input_answer; // 사용자가 숫자를 입력받아 저장한다. 위치를 비교해야 하기에 문자로 받는 것이고, 수를 비교할 때는 숫자로 변환할 예정이다.
-	int user_answer[3]; // string으로 입력받은 숫자를 나눠서 배열에 저장 
+	int user_answer[3]; // string으로 입력받은 문자를 숫자로 변환해 배열에 저장 
 	int score = 0; // 사용자의 게임 횟수(사용자가 숫자를 몇 번 입력했는지)
 
 	int strike = 0; // 사용자의 스트라이크 수
-	int ball = 0; // 사용자의  볼 
+	int ball = 0; // 사용자의 볼 수
 
 	// 사용자가 맞춰야할 난수를 배열로 생성
 	int answer[3] = { rand() % 10, rand() % 10, rand() % 10 }; 
 };
 
-User::User() {
-	cout << "게임시작\n\n"; // 딱히 값을 초기화 시킬 게 없어서 게임 시작을 알리는 문구를 출력하며 시작
-}
-
-
 void User::playgame() {
+	cout << "게임을 시작합니다. 종료하려면 exit를 입력하세요.\n\n";
 
 	// 게임을 시작하기 앞서 난수가 서로 다른지 확인
 	if (answer[1] == answer[0]) {	// answer[1]가 answer[0]과 같으면 새롭게 난수를 받음
@@ -51,17 +46,21 @@ void User::playgame() {
 		// 사용자에게 3자리 숫자를 입력 받음
 		cout << "3자리 숫자를 입력하세요: ";
 		cin >> input_answer;
-		user_answer[0] = input_answer[0] - '0'; // string으로 입력받은 숫자를 모습 그대로 int형으로 바꾸고 싶으면 문자0의 아스키코드를 빼주면 된다.
-		user_answer[1] = input_answer[1] - '0';
-		user_answer[2] = input_answer[2] - '0';
 
 		// exit를 입력하면 프로그램 종료
-		if (input_answer[0] == 'e' && input_answer[1] == 'x' && input_answer[2] == 'i' && input_answer[3] == 't') {
+		if (input_answer=="exit") {
 			cout << "============================\n";
 			cout << "프로그램이 종료되었습니다.\n";
 			cout << "============================\n";
 			exit(1);
 		}
+
+		// exit를 입력하지 않고 숫자를 입력받았으면 그 수를 숫자 배열로 저장한다. 
+		user_answer[0] = input_answer[0] - '0'; // string으로 입력받은 숫자를 모습 그대로 int형으로 바꾸고 싶다면 문자0의 아스키코드를 빼주면 된다.
+		user_answer[1] = input_answer[1] - '0';
+		user_answer[2] = input_answer[2] - '0';
+
+
 
 		strike = 0; // 스트라이크 수
 		ball = 0;   // 볼 수
