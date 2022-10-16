@@ -14,7 +14,7 @@ public:
 
 private:
 	string input_answer; // 사용자가 숫자를 입력받아 저장한다. 위치를 비교해야 하기에 문자로 받는 것이고, 수를 비교할 때는 숫자로 변환할 예정이다.
-	int user_answer[4]; // string으로 입력받은 숫자를 나눠서 배열에 저장 
+	int user_answer[3]; // string으로 입력받은 숫자를 나눠서 배열에 저장 
 	int score = 0; // 사용자의 게임 횟수(사용자가 숫자를 몇 번 입력했는지)
 
 	int strike = 0; // 사용자의 스트라이크 수
