@@ -20,11 +20,7 @@ private:
 	int ball = 0; // 사용자의  볼 
 
 	// 사용자가 맞춰야할 난수 생성
-	int answer1 = rand() % 10; // 첫 번째 난수 문자
-	int answer2 = rand() % 10; // 두 번째 난수 문자 
-	int answer3 = rand() % 10; // 세 번째 난수 문자 
-
-	int answer[4] = { answer1,answer2,answer3 }; // 위에서 생성된 난수를 숫자배열로 만듦
+	int answer[4] = { rand() % 10,rand() % 10,rand() % 10 }; // 위에서 생성된 난수를 숫자배열로 만듦
 
 public:
 	void playgame(); // 사용자가 야구 게임을 하는 메서드
@@ -40,16 +36,16 @@ User::User() {
 void User::playgame() {
 
 	// 게임을 시작하기 앞서 난수가 서로 다른지 확인
-	if (answer2 == answer1) {	// answer2가 answer1과 같으면 새롭게 난수를 받음
-		answer2 = rand() % 10;
-		while (answer2 == answer1) // 새롭게 난수를 생성했음에도 두 값이 같으면 두 값이 달라질 때까지 난수를 받음 
-			answer2 = rand() % 10;
+	if (answer[2] == answer[1]) {	// answer2가 answer1과 같으면 새롭게 난수를 받음
+		answer[2] = rand() % 10;
+		while (answer[2] == answer[1]) // 새롭게 난수를 생성했음에도 두 값이 같으면 두 값이 달라질 때까지 난수를 받음 
+			answer[2] = rand() % 10;
 	}
 
-	if (answer3 == answer1 || answer3 == answer2) {
-		answer3 = rand() % 10;	// answer3이 answer1이나 answer2와 같으면 새롭게 난수를 받음
-		while ((answer3 == answer1) && (answer3 == answer2))  // 그조차도 같으면 두 값이 달라질 때까지 난수를 받음
-			answer3 = rand() % 10;
+	if (answer[3]== answer[1] || answer[3] == answer[2]) {
+		answer[3] = rand() % 10;	// answer3이 answer1이나 answer2와 같으면 새롭게 난수를 받음
+		while ((answer[3] == answer[1]) && (answer[3] == answer[2]))  // 그조차도 같으면 두 값이 달라질 때까지 난수를 받음
+			answer[3] = rand() % 10;
 	}
 
 
