@@ -39,10 +39,8 @@ void User::playgame() {
 			answer[2] = rand() % 10;
 	}
 
-
 	// 사용자가 정답을 맞출 때까지 무한 반복(숫자 입력받고 스트라이크볼 알려주기를 반복)
 	while (1) {
-
 		// 사용자에게 3자리 숫자를 입력 받음
 		cout << "3자리 숫자를 입력하세요: ";
 		cin >> input_answer;
@@ -60,13 +58,10 @@ void User::playgame() {
 		user_answer[1] = input_answer[1] - '0';
 		user_answer[2] = input_answer[2] - '0';
 
-
-
 		strike = 0; // 스트라이크 수
 		ball = 0;   // 볼 수
 
 		// 스트라이크와 볼 수를 계산
-
 		for (int i = 0; i <= 2; i++) {	// 정답의 i 번째 숫자와 사용자에게 입력받은 3개의 숫자를 비교
 			for (int j = 0; j <= 2; j++) {
 				if (answer[i] == user_answer[j]) {	// 만약 정답의 i번째 숫자와 사용자에게 입력받은 3개의 숫자 중에 같은 숫자가 있을 때
@@ -77,7 +72,6 @@ void User::playgame() {
 				}
 			}
 		}
-
 		score++; // 실행횟수 증가
 
 		// 숫자를 모두 맞췄을 때는 3스트라이크라는 것을 이용해 프로그램 종료 
@@ -88,18 +82,15 @@ void User::playgame() {
 			cout << "=============================\n";
 			exit(0);
 		}
-
 		cout << "============================\n";
 		cout << user_answer[0] << user_answer[1] << user_answer[2] << ": " << strike << "스트라이크 " << ball << "볼";
 		cout << "\n============================\n" << "\n";
-
-
 	};
 }
 
 int main()
 {
 	srand((unsigned int)time(NULL));
-	User Hyein; //HYyein이라는 객체를 생성 
-	Hyein.playgame();  //Hyein이가 게임을 하게 되는 메서드 
+	User Hyein;	//Hyein이라는 객체를 생성 
+	Hyein.playgame();	//Hyein이가 게임을 하게 되는 메서드 
 }
