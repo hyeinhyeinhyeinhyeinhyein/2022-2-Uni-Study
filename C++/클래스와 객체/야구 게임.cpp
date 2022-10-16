@@ -11,10 +11,10 @@ class User {
 public:
 	User(); // 생성자함수
 
+private:
+
 	string input_answer; // 사용자가 입력한 숫자를 저장
 	int user_answer[4]; // string으로 입력받은 숫자를 나눠서 배열에 저장 
-
-private:
 	int score = 0; // 사용자의 게임 횟수(사용자가 숫자를 몇 번 입력했는지)
 	int strike = 0; // 사용자의 스트라이크 수
 	int ball = 0; // 사용자의  볼 
