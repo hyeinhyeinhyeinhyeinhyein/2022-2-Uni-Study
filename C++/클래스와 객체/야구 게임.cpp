@@ -10,23 +10,19 @@ using namespace std;
 class User {
 public:
 	User(); // 생성자함수
+	void playgame(); // 사용자가 야구 게임을 하는 메서드
 
 private:
-
-	string input_answer; // 사용자가 입력한 숫자를 저장
+	string input_answer; // 사용자가 숫자를 입력받아 저장한다. 위치를 비교해야 하기에 문자로 받는 것이고, 수를 비교할 때는 숫자로 변환할 예정이다.
 	int user_answer[4]; // string으로 입력받은 숫자를 나눠서 배열에 저장 
 	int score = 0; // 사용자의 게임 횟수(사용자가 숫자를 몇 번 입력했는지)
+
 	int strike = 0; // 사용자의 스트라이크 수
 	int ball = 0; // 사용자의  볼 
 
-	// 사용자가 맞춰야할 난수 생성
-	int answer[4] = { rand() % 10,rand() % 10,rand() % 10 }; // 위에서 생성된 난수를 숫자배열로 만듦
-
-public:
-	void playgame(); // 사용자가 야구 게임을 하는 메서드
+	// 사용자가 맞춰야할 난수를 배열로 생성
+	int answer[3] = { rand() % 10, rand() % 10, rand() % 10 }; 
 };
-
-
 
 User::User() {
 	cout << "게임시작\n\n"; // 딱히 값을 초기화 시킬 게 없어서 게임 시작을 알리는 문구를 출력하며 시작
@@ -36,16 +32,16 @@ User::User() {
 void User::playgame() {
 
 	// 게임을 시작하기 앞서 난수가 서로 다른지 확인
-	if (answer[2] == answer[1]) {	// answer2가 answer1과 같으면 새롭게 난수를 받음
-		answer[2] = rand() % 10;
-		while (answer[2] == answer[1]) // 새롭게 난수를 생성했음에도 두 값이 같으면 두 값이 달라질 때까지 난수를 받음 
-			answer[2] = rand() % 10;
+	if (answer[1] == answer[0]) {	// answer[1]가 answer[0]과 같으면 새롭게 난수를 받음
+		answer[1] = rand() % 10;
+		while (answer[1] == answer[0]) // 새롭게 난수를 생성했음에도 두 값이 같으면 두 값이 달라질 때까지 난수를 받음 
+			answer[1] = rand() % 10;
 	}
 
-	if (answer[3]== answer[1] || answer[3] == answer[2]) {
-		answer[3] = rand() % 10;	// answer3이 answer1이나 answer2와 같으면 새롭게 난수를 받음
-		while ((answer[3] == answer[1]) && (answer[3] == answer[2]))  // 그조차도 같으면 두 값이 달라질 때까지 난수를 받음
-			answer[3] = rand() % 10;
+	if (answer[2] == answer[0] || answer[2] == answer[1]) {
+		answer[2] = rand() % 10;	// answer[2]이 answer[0]이나 answer[1]와 같으면 새롭게 난수를 받음
+		while ((answer[2] == answer[0]) || (answer[2] == answer[1]))  // 그조차도 같으면 두 값이 달라질 때까지 난수를 받음
+			answer[2] = rand() % 10;
 	}
 
 
@@ -105,6 +101,6 @@ void User::playgame() {
 int main()
 {
 	srand((unsigned int)time(NULL));
-	User Hyein; //User라는 객체를 생성 
-	Hyein.playgame();  //User가 게임을 할 수 있게 실행하는 메서드 
+	User Hyein; //HYyein이라는 객체를 생성 
+	Hyein.playgame();  //Hyein이가 게임을 하게 되는 메서드 
 }
