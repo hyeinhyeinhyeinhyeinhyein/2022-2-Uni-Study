@@ -7,9 +7,9 @@
 #include <time.h> // rand의 seed 기준을 현재 시간으로 잡아 난수를 매 실행마다 다르게 설정 
 using namespace std;
 
-class Game {
+class User {
 public:
-	Game(); // 생성자함수
+	User(); // 생성자함수
 
 	string input_answer; // 사용자가 입력한 숫자를 저장
 	int user_answer[4]; // string으로 입력받은 숫자를 나눠서 배열에 저장 
@@ -32,12 +32,12 @@ public:
 
 
 
-Game::Game() {
+User::Game() {
 	cout << "게임시작\n\n"; // 딱히 값을 초기화 시킬 게 없어서 게임 시작을 알리는 문구를 출력하며 시작
 }
 
 
-void Game::playgame() {
+void User::playgame() {
 
 	// 게임을 시작하기 앞서 난수가 서로 다른지 확인
 	if (answer2 == answer1) {	// answer2가 answer1과 같으면 새롭게 난수를 받음
@@ -109,6 +109,6 @@ void Game::playgame() {
 int main()
 {
 	srand((unsigned int)time(NULL));
-	Game User; //User라는 객체를 생성 
-	User.playgame();  //User가 게임을 할 수 있게 실행하는 메서드 
+	User Hyein; //User라는 객체를 생성 
+	Hyein.playgame();  //User가 게임을 할 수 있게 실행하는 메서드 
 }
