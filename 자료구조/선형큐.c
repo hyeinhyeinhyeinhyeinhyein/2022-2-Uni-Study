@@ -1,5 +1,6 @@
 // 선형큐
 // 초기값 -1
+// rear - front 값이 큐에 들어있는 원소 
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX_QUEUE_SIZE 5
