@@ -48,13 +48,13 @@ void main() {
 		do{		
 		fgets(buffer, 100, fp);
 		fname = strtok(buffer, FTOKEN);
-		fnumber=strtok(NULL, FTOKEN);
+		fnumber= strtok(NULL, FTOKEN);
 		faddress = strtok(NULL, FTOKEN);
 		
 	
 		strcpy(hyeinbook[p].bookname, fname);
-		strcpy(hyeinbook[p].bookphone, fname);
-		strcpy(hyeinbook[p].bookaddress, fname);
+		strcpy(hyeinbook[p].bookphone, fnumber);
+		strcpy(hyeinbook[p].bookaddress, faddress);
 		p++;
 
 		}while (!feof(fp)); // 파일 끝에 도달하면 feof 값은 0, 도달하지 않았으면 0이 아닌 수 반환
