@@ -63,7 +63,7 @@ void main() {
 
 		fclose(fp);
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < p; i++) {
 			printf("이름: %s\n", hyeinbook[i].bookname);
 			printf("전화번호: %s\n", hyeinbook[i].bookphone);
 			printf("주소: %s\n", hyeinbook[i].bookaddress);
@@ -77,7 +77,10 @@ void main() {
 	else if (_access(path, 0) == -1) {
 
 		while (gets(line)) {
-			if (line[0] == 'e' && line[1] == 'x' && line[2] == 'i' && line[3] == 't') break; // exit 입력되면 프로그램 종료
+			if (line[0] == 'e' && line[1] == 'x' && line[2] == 'i' && line[3] == 't') {
+				if (p < 5) printf("아직 정보 5개 이상을 입력하지 않았습니다. %d개를 더 입력하세요.\n", 5 - p);
+				else break; // exit 입력되면 프로그램 종료}
+			}
 
 			else { // 전화번호부에 정보를 나눠 저장하기 
 
