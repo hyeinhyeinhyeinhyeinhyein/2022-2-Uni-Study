@@ -29,26 +29,47 @@ typedef struct Phonebook {
 void main() {
 	char line[100]; // 정보를 입력받을 한 줄
 	Phonebook hyeinbook[10] = { NULL };
-	int p = 0;
+	int p = 0; // 구조체 배열 인덱스 
 
 	FILE* fp; // 전화번호부 파일 포인터 
 	char* path = "c:\\temp\\address.txt"; // 전화번호부가 저장될 위치
 	char buffer[100]; // 파일 내용을 출력할 때 필요한 버퍼
 
+	char* fname;
+	char* fnumber;
+	char* faddress;
+
 	if (_access(path, 0) == 0)// address.txt가 존재하면
 	{
 		fp = fopen("c:\\temp\\address.txt", "r");
 
+		p = 0;
+
+		do{		
 		fgets(buffer, 100, fp);
-		puts(buffer);
+		fname = strtok(buffer, FTOKEN);
+		fnumber=strtok(NULL, FTOKEN);
+		faddress = strtok(NULL, FTOKEN);
+		
+	
+		strcpy(hyeinbook[p].bookname, fname);
+		strcpy(hyeinbook[p].bookphone, fname);
+		strcpy(hyeinbook[p].bookaddress, fname);
+		p++;
 
-		while (!feof(fp)) { // 파일 끝에 도달하면 feof 값은 0, 도달하지 않았으면 0이 아닌 수 반환
-			fgets(buffer, 100, fp);
-			puts(buffer);
-		};
+		}while (!feof(fp)); // 파일 끝에 도달하면 feof 값은 0, 도달하지 않았으면 0이 아닌 수 반환
 
-		puts("이제끝!");
 		fclose(fp);
+
+		for (int i = 0; i < 5; i++) {
+			printf("이름: %s\n", hyeinbook[i].bookname);
+			printf("전화번호: %s\n", hyeinbook[i].bookphone);
+			printf("주소: %s\n", hyeinbook[i].bookaddress);
+			printf("\n");
+		}
+
+
+	
 	}
 
 	else if (_access(path, 0) == -1) {
@@ -412,5 +433,5 @@ void main() {
 
 	}
 
-		
+
 }
