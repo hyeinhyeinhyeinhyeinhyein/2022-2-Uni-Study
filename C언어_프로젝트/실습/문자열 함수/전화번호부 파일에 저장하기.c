@@ -45,19 +45,21 @@ void main() {
 
 		p = 0;
 
-		do{		
-		fgets(buffer, 100, fp);
-		fname = strtok(buffer, FTOKEN);
-		fnumber= strtok(NULL, FTOKEN);
-		faddress = strtok(NULL, FTOKEN);
-		
-	
-		strcpy(hyeinbook[p].bookname, fname);
-		strcpy(hyeinbook[p].bookphone, fnumber);
-		strcpy(hyeinbook[p].bookaddress, faddress);
-		p++;
+		while (!feof(fp)){
 
-		}while (!feof(fp)); // 파일 끝에 도달하면 feof 값은 0, 도달하지 않았으면 0이 아닌 수 반환
+			fgets(buffer, 100, fp);
+			
+			fname = strtok(buffer, FTOKEN);
+			fnumber = strtok(NULL, FTOKEN);
+			faddress = strtok(NULL, FTOKEN);
+
+
+			strcpy(hyeinbook[p].bookname, fname);
+			strcpy(hyeinbook[p].bookphone, fnumber);
+			strcpy(hyeinbook[p].bookaddress, faddress);
+			p++;
+
+		} 
 
 		fclose(fp);
 
@@ -69,7 +71,7 @@ void main() {
 		}
 
 
-	
+
 	}
 
 	else if (_access(path, 0) == -1) {
@@ -410,7 +412,7 @@ void main() {
 				strcpy(hyeinbook[p].bookphone, number_token);
 				strcpy(hyeinbook[p].bookaddress, address);
 
-				p++;
+				p++; // 몇 개의 구조체 배열이 필요한지 계산 p이 개수, p-1은 인덱스
 
 				printf("\n\n");
 			}
@@ -418,7 +420,7 @@ void main() {
 		}
 		fp = fopen("c:\\temp\\address.txt", "w");
 
-		for (int j = 0; j < 10; j++) {
+		for (int j = 0; j < p-1; j++) {
 			printf("----------------%d번째 전화번호부----------------\n", j + 1);
 			printf("이름: %s\n", hyeinbook[j].bookname);
 			printf("전화번호: %s\n", hyeinbook[j].bookphone);
@@ -427,11 +429,17 @@ void main() {
 
 			fprintf(fp, "%s\t", hyeinbook[j].bookname);
 			fprintf(fp, "%s\t", hyeinbook[j].bookphone);
-			fprintf(fp, "%s\n", hyeinbook[j].bookaddress);
-
+			fprintf(fp, "%s\t\n", hyeinbook[j].bookaddress); // p-1전까지는 마지막에 줄 바꿈을 넣음
 		}
 
+		printf("----------------%d번째 전화번호부----------------\n",p);
+		printf("이름: %s\n", hyeinbook[p-1].bookname);
+		printf("전화번호: %s\n", hyeinbook[p-1].bookphone);
+		printf("주소: %s\n", hyeinbook[p-1].bookaddress);
+		printf("\n");
+
+		fprintf(fp, "%s\t", hyeinbook[p-1].bookname);
+		fprintf(fp, "%s\t", hyeinbook[p-1].bookphone);
+		fprintf(fp, "%s\t", hyeinbook[p-1].bookaddress); // 마지막 줄이 줄바꿈되지 않게 p-1에서 끝에 줄바꿈을 넣지 않음
 	}
-
-
 }
