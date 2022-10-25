@@ -76,7 +76,7 @@ void main() {
 
 	else if (_access(path, 0) == -1) { 	// address.txt가 존재하지 않으면 
 
-		printf("이름-주소-전화번호를 순서 상관없이 입력하세요.\n");	
+		printf("이름-주소-전화번호를 순서 상관없이 입력하세요.\n");
 		printf("단, 전화번호는 구분자를 넣어 총 13자리를 입력하세요. \n");
 		printf("입력을 멈추고 싶다면 exit를 입력하세요.\n\n");
 
@@ -448,5 +448,7 @@ void main() {
 		fprintf(fp, "%s\t", hyeinbook[p - 1].bookname);
 		fprintf(fp, "%s\t", hyeinbook[p - 1].bookphone);
 		fprintf(fp, "%s\t", hyeinbook[p - 1].bookaddress); // 마지막 줄이 줄바꿈되지 않게 p-1에서 끝에 줄바꿈을 넣지 않음
+
+		fclose(fp);
 	}
 }
