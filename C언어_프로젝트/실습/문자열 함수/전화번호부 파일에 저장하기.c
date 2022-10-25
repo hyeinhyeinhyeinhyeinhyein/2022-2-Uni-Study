@@ -1,7 +1,8 @@
 /********************************************
 사용자 입력 문자열에 exit가 입력될 때까지 한줄씩 입력
 이름 전화번호 주소를 임의의 순서로 입력받아서 모두 구조체 배열에 저장
-저장 후 이름 전화번호 주소를 순차 출력
+address.txt파일이 C:\temp\에 존재하면 텍스트 파일의 내용을 콘솔에 출력
+파일이 존재하지 않으면, 콘솔에 입력한 '이름\t주소\t전화번호\t'를 txt파일에 입력해 저장
 *************************************************/
 
 // 이름, 전화번호, 주소를 '정보'라 칭함
@@ -16,9 +17,10 @@
 
 #define TOKEN " .-+_:;*&^%" // 전화번호를 저장할 때 어디에서 토큰화할지 기준이 되는 기호 모음 
 #define FTOKEN "\t" // 파일에서 입력받은 줄을 토큰화할 때 필요함
+#define NUMBER_OF_BOOK 10 // 구조체 배열 개수 
 
 
-
+// 정보를 저장할 구조체
 typedef struct Phonebook {
 	char bookname[30];
 	char bookphone[20];
@@ -28,55 +30,58 @@ typedef struct Phonebook {
 
 void main() {
 	char line[100]; // 정보를 입력받을 한 줄
-	Phonebook hyeinbook[10] = { NULL };
+	Phonebook hyeinbook[NUMBER_OF_BOOK] = { NULL };
 	int p = 0; // 구조체 배열 인덱스 
 
 	FILE* fp; // 전화번호부 파일 포인터 
 	char* path = "c:\\temp\\address.txt"; // 전화번호부가 저장될 위치
 	char buffer[100]; // 파일 내용을 출력할 때 필요한 버퍼
 
-	char* fname;
-	char* fnumber;
-	char* faddress;
 
-	if (_access(path, 0) == 0)// address.txt가 존재하면
+	// 파일에서 내용을 읽어올 때 이용하는 토큰들
+	char* fname;	// 파일에서 fgets로 받아왔을 때 첫 토큰이 이름일텐데, 이름을 가리키는 문자열 포인터 
+	char* fnumber;	// 파일에서 fgets로 받아왔을 때 두 번째 토큰이 전화번호일텐데, 전화번호를 가리키는 문자열 포인터 
+	char* faddress;		// 파일에서 fgets로 받아왔을 때 세 번째 토큰이 주소일텐데, 주소를 가리키는 문자열 포인터 
+
+	if (_access(path, 0) == 0)	// address.txt가 존재하면
 	{
-		fp = fopen("c:\\temp\\address.txt", "r");
+		fp = fopen("c:\\temp\\address.txt", "r");	// address.txt 파일을 연다
 
-		p = 0;
+		p = 0;	// 구조체 배열의 인덱스 
 
-		while (!feof(fp)){
+		while (!feof(fp)) { // 파일 포인터가 파일의 끝을 가리키기 전까지 아래의 동작을 반복
+			fgets(buffer, 100, fp);	// 한 줄씩(최대 99byte) 문자열 버퍼에 저장 
 
-			fgets(buffer, 100, fp);
-			
-			fname = strtok(buffer, FTOKEN);
-			fnumber = strtok(NULL, FTOKEN);
-			faddress = strtok(NULL, FTOKEN);
+			fname = strtok(buffer, FTOKEN);	// 버퍼에 저장된 문자열을 \t를 기준으로 토큰화한다. 첫 번째 토큰화된 문자열은 이름
+			fnumber = strtok(NULL, FTOKEN); // 두 번째 토큰화된 문자열은 전화번호
+			faddress = strtok(NULL, FTOKEN); // 세 번째 토큰화된 문자열은 주소 
+			// 사실 메모리 덜 차지하게 하나의 char*로 써도 되긴하지만 가독성이 더 나은 것 같아 이렇게 함
 
-
-			strcpy(hyeinbook[p].bookname, fname);
+			strcpy(hyeinbook[p].bookname, fname);	// 첫 번째 토큰화 했던 문자열을 구조체의 이름멤버에 복사한다. 
 			strcpy(hyeinbook[p].bookphone, fnumber);
 			strcpy(hyeinbook[p].bookaddress, faddress);
-			p++;
+			p++; //// 구조체 배열 인덱스가 +1됨
 
-		} 
+		}
+		fclose(fp); // 파일에서 다 읽어왔으면 파일을 닫음
 
-		fclose(fp);
-
+		// 파일에서 읽어온 정보들을 구조체에 저장했고, 저장해둔 내용을 콘솔에 출력하기 위해 다음과 같이 동작함 
 		for (int i = 0; i < p; i++) {
 			printf("이름: %s\n", hyeinbook[i].bookname);
 			printf("전화번호: %s\n", hyeinbook[i].bookphone);
 			printf("주소: %s\n", hyeinbook[i].bookaddress);
 			printf("\n");
 		}
-
-
-
 	}
 
-	else if (_access(path, 0) == -1) {
+	else if (_access(path, 0) == -1) { 	// address.txt가 존재하지 않으면 
 
-		while (gets(line)) {
+		printf("이름-주소-전화번호를 순서 상관없이 입력하세요.\n");	
+		printf("단, 전화번호는 구분자를 넣어 총 13자리를 입력하세요. \n");
+		printf("입력을 멈추고 싶다면 exit를 입력하세요.\n\n");
+
+		while (gets(line)) {	// exit를 입력할 때까지 정보를 무한(NUMBER_OF_BOOK개까지)으로 입력할 수 있다.  
+
 			if (line[0] == 'e' && line[1] == 'x' && line[2] == 'i' && line[3] == 't') {
 				if (p < 5) printf("아직 정보 5개 이상을 입력하지 않았습니다. %d개를 더 입력하세요.\n", 5 - p);
 				else break; // exit 입력되면 프로그램 종료}
@@ -184,8 +189,6 @@ void main() {
 						number_token[i] = token3[ii];
 						ii++;
 					}
-
-
 				}
 
 				/*=============================문자로 시작=============================*/
@@ -409,7 +412,6 @@ void main() {
 					}
 				}
 
-
 				// 구조체에 내용 저장 
 				strcpy(hyeinbook[p].bookname, name);
 				strcpy(hyeinbook[p].bookphone, number_token);
@@ -421,9 +423,11 @@ void main() {
 			}
 
 		}
+
 		fp = fopen("c:\\temp\\address.txt", "w");
 
-		for (int j = 0; j < p-1; j++) {
+		// 구조체 저장된 정보를 콘솔에 출력
+		for (int j = 0; j < p - 1; j++) {
 			printf("----------------%d번째 전화번호부----------------\n", j + 1);
 			printf("이름: %s\n", hyeinbook[j].bookname);
 			printf("전화번호: %s\n", hyeinbook[j].bookphone);
@@ -435,14 +439,14 @@ void main() {
 			fprintf(fp, "%s\t\n", hyeinbook[j].bookaddress); // p-1전까지는 마지막에 줄 바꿈을 넣음
 		}
 
-		printf("----------------%d번째 전화번호부----------------\n",p);
-		printf("이름: %s\n", hyeinbook[p-1].bookname);
-		printf("전화번호: %s\n", hyeinbook[p-1].bookphone);
-		printf("주소: %s\n", hyeinbook[p-1].bookaddress);
+		printf("----------------%d번째 전화번호부----------------\n", p);
+		printf("이름: %s\n", hyeinbook[p - 1].bookname);
+		printf("전화번호: %s\n", hyeinbook[p - 1].bookphone);
+		printf("주소: %s\n", hyeinbook[p - 1].bookaddress);
 		printf("\n");
 
-		fprintf(fp, "%s\t", hyeinbook[p-1].bookname);
-		fprintf(fp, "%s\t", hyeinbook[p-1].bookphone);
-		fprintf(fp, "%s\t", hyeinbook[p-1].bookaddress); // 마지막 줄이 줄바꿈되지 않게 p-1에서 끝에 줄바꿈을 넣지 않음
+		fprintf(fp, "%s\t", hyeinbook[p - 1].bookname);
+		fprintf(fp, "%s\t", hyeinbook[p - 1].bookphone);
+		fprintf(fp, "%s\t", hyeinbook[p - 1].bookaddress); // 마지막 줄이 줄바꿈되지 않게 p-1에서 끝에 줄바꿈을 넣지 않음
 	}
 }
