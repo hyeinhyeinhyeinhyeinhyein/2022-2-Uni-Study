@@ -76,6 +76,7 @@ element peek(QueueType* q)
 	return q->data[(q->front + 1) % MAX_QUEUE_SIZE];
 }
 
+// 이 부분을 구현하는 게 핵심이었음!
 // 원형큐의 원소 개수를 반환하는 함수 
 element get_count(QueueType* q)
 {
@@ -97,32 +98,32 @@ element get_count(QueueType* q)
 int main(void)
 {
 	QueueType queue;
+	int whatareyougoing = 0; // push, pop, 전체 출력 중 고를 때 필요한 변수
 	int element;
-	char ask_continue[5]="\0";
 
 	init_queue(&queue);
-	printf("--데이터 추가 단계--\n");
-	while (strstr(ask_continue,"exit") == NULL)
-	{
-		printf("정수를 입력하시오: ");
-		scanf("%d", &element);
-		enqueue(&queue, element);
-		queue_print(&queue);
-		printf("계속 입력하시겠습니까?");
-		scanf("%s", &ask_continue);
-	}
 
-	printf("원형큐에 저장된 원소의 개수는 %d개 입니다.\n", get_count(&queue));
-	
-	printf("큐는 포화상태입니다.\n\n");
+	while (whatareyougoing != 4) {
 
-	printf("--데이터 삭제 단계--\n");
-	while (!is_empty(&queue))
-	{
-		element = dequeue(&queue);
-		printf("꺼내진 정수: %d \n", element);
-		queue_print(&queue);
+		printf("push는 1, pop은 2, 원소 전체 출력은 3, 종료는 4를 입력하세요. >> ");
+		scanf("%d", &whatareyougoing);
+
+		if (whatareyougoing == 1) { //push
+			printf("정수를 입력하시오: ");
+			scanf("%d", &element);
+			enqueue(&queue, element);
+			printf("현재 원형큐에 저장된 원소의 개수는 %d개 입니다.\n", get_count(&queue));
+		}
+
+		if (whatareyougoing == 2) { //pop
+			dequeue(&queue);
+			printf("현재 원형큐에 저장된 원소의 개수는 %d개 입니다.\n", get_count(&queue));
+		}
+
+		if (whatareyougoing == 3) { //print
+			queue_print(&queue);
+			printf("현재 원형큐에 저장된 원소의 개수는 %d개 입니다.\n", get_count(&queue));
+		}
+		
 	}
-	printf("큐는 공백상태입니다.\n");
-	return 0;
 }
