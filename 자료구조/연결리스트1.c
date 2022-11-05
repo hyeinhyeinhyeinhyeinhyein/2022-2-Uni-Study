@@ -21,13 +21,15 @@ ListNode* insert_first(ListNode* head, int value) {
 
 }
 
-ListNode* insert_first(ListNode* head, ListNode* pre,element value) {
-
-	ListNode* p;
-
+ListNode* insert(ListNode* head, ListNode* pre, element value) { //head는 어느 리스트에 삽입할지 구분하는 것인건가?
+	ListNode* p = (ListNode*)malloc(sizeof(ListNode));
+	p->data = value;
+	p->link = pre->link;
+	pre->link = p;
+	return head;
 }
 
-ListNode* delete_first(ListNode* head) {
+ListNode* delete_first(ListNode* head) {	
 	ListNode* removed;
 	removed = head;
 	head = removed->link;
@@ -35,9 +37,23 @@ ListNode* delete_first(ListNode* head) {
 	return head;
 }
 
+ListNode* delete(ListNode* head, ListNode* pre) { //head는 어느 리스트에 삽입할지 구분하는 것인건가? 근데 pre는 꼭 필요해보인다~
+	ListNode* removed;
+	removed = pre->link;
+	pre->link = removed->link; // 이거 확인하기
+	free(removed);
+	return head;
+}
 
+void print_list(ListNode* head) {
+	for (ListNode* p = head; p != NULL; p = p->link) {
+		printf("%d->", p->data);
+	}
+	printf("NULL \n");
+}
 
 
 int main() {
+	ListNode* head = NULL;
 
 }
