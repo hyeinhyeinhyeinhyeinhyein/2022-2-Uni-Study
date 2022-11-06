@@ -4,9 +4,9 @@
 using namespace std;
 
 class Histogram {
-	string full_sentence;
-	string string_content;
-	char char_content;
+	string full_sentence;	// 최종적으로 알파벳 개수 검사할 문장
+	string string_content;	// full_sentence에 추가할 문자열
+	char char_content;	//full_sentence에 추가할 문자 
 public:
 	Histogram(string full_sentence);
 	void put(string string_content);
@@ -35,10 +35,10 @@ void Histogram::print() {
 		full_sentence[i] = tolower(full_sentence[i]);
 	}
 
-	int theNumber = 0;
+	int theNumber = 0;	//full_sentence에 들어있는 알파벳 개수 
 
-	for (int i = 97; i <= 122; i++) {
-		for (int j = 0; j < full_sentence.length(); j++) {
+	for (int i = 97; i <= 122; i++) {	// 'a'의 아스키코드: 97, 'z'의 아스키코드: 122
+		for (int j = 0; j < full_sentence.length(); j++) { // full_sentence의 문자마다 반복문으로 돌아가는 알파벳의 아스키코드가 같은지를 체크함
 			if(full_sentence[j] == (char)i)
 				theNumber++;
 		}
@@ -47,7 +47,7 @@ void Histogram::print() {
 			cout << "*";
 		}
 		cout << "\n";
-		theNumber= 0;
+		theNumber= 0; // 0으로 초기화 시켜주어야 다음 알파벳에서 출력되는 별 개수가 누적되지 않음
 	}
 
 }
@@ -58,7 +58,4 @@ void main() {
 	elvisHistro.putc('-');
 	elvisHistro.put("Elvis Presley");
 	elvisHistro.print();
-
-
-
 }
