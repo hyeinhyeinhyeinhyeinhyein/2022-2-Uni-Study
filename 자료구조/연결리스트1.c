@@ -15,13 +15,13 @@ void error(char* message) {
 ListNode* insert_first(ListNode* head, int value) {
 	ListNode* p = (ListNode*)malloc(sizeof(ListNode)); //p에 ListNode만큼 메모리를 할당해둔 주소를 저장한다.
 	p->data = value;
-	p->link = head;	//p의 링크가 먼저 head가 가리키는 애를 선점해야 head에 p를  넣을 수 있음 
+	p->link = head;	//원래 head가 가리키던 곳을 옮겨야지! p의 링크가 먼저 head가 가리키는 애를 선점해야 head에 p를  넣을 수 있음 
 	head = p;
 	return head; // ?포인터를 반환하면 뭐가 어떻게 되나??
 
 }
 
-ListNode* insert(ListNode* head, ListNode* pre, element value) { //head는 어느 리스트에 삽입할지 구분하는 것인건가?
+ListNode* insert(ListNode* head, ListNode* pre, element value) { //head는 어느 리스트에 삽입할지 구분하는 것임! (아마) 
 	ListNode* p = (ListNode*)malloc(sizeof(ListNode));
 	p->data = value;
 	p->link = pre->link;
@@ -29,15 +29,16 @@ ListNode* insert(ListNode* head, ListNode* pre, element value) { //head는 어�
 	return head;
 }
 
-ListNode* delete_first(ListNode* head) {	
+ListNode* delete_first(ListNode* head) {
 	ListNode* removed;
+	if (head == NULL) return NULL;
 	removed = head;
 	head = removed->link;
 	free(removed);
 	return head;
 }
 
-ListNode* delete(ListNode* head, ListNode* pre) { //head는 어느 리스트에 삽입할지 구분하는 것인건가? 근데 pre는 꼭 필요해보인다~
+ListNode* delete(ListNode* head, ListNode* pre) {
 	ListNode* removed;
 	removed = pre->link;
 	pre->link = removed->link; // 이거 확인하기
@@ -54,6 +55,17 @@ void print_list(ListNode* head) {
 
 
 int main() {
-	ListNode* head = NULL;
+	ListNode* head=NULL;
 
+	head=insert_first(head, 100);//head= 는 왜 써야하는 것?
+
+	//insert(head, head, 200);
+
+	//insert_first(head, 500);
+
+	insert_first(head, 800);
+
+	print_list(head);
+	
+	// 800 500 100 200
 }
