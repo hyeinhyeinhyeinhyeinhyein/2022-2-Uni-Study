@@ -5,8 +5,6 @@ using namespace std;
 
 class Histogram {
 	string full_sentence;	// 최종적으로 알파벳 개수 검사할 문장
-	string string_content;	// full_sentence에 추가할 문자열
-	char char_content;	//full_sentence에 추가할 문자 
 public:
 	Histogram(string full_sentence);
 	void put(string string_content);
