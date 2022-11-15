@@ -10,96 +10,102 @@ typedef struct Student {
 	struct student* right;
 }STUDENT;
 
-STUDENT* btsearch(STUDENT* root, char* key);	//학생이름 위치를 나타내는 구조체 포인터, 루트는 어디고, 키(이름)을 받음
-void print_node(STUDENT* node);	//노드를 모두 출력하는 함수, ?node부터 출력하는 거?, root 필요없음?
-void insert_node(STUDENT** root, STUDENT* node);	// 노드를 삽입하는 함수, 뿌리를 알고, ? 몰라 node 왜 필요
-void in_order(STUDENT* node); //전위탐색 함수, ?root 필요없음?
-void delete(STUDENT* node);	//삭제 함수 
-
+void print_node(STUDENT* node);		//노드 정보를 출력하는 함수 (트리 순회할 때 사용한다.)
+void insert_node(STUDENT** root, STUDENT* node);	// 이진트리의 노드를 추가하는 함수
+void in_order(STUDENT* node);		//중위순회대로 노드를 출력하는 함수 
+void pre_order(STUDENT* node);		//전위순회대로 노드를 출력하는 함수 
+void post_order(STUDENT* node);		//후위순회대로 노드를 출력하는 함수 
+void delete(STUDENT* node);		//키를 입력 받아 노드를 삭제하는 함수 
+STUDENT* btsearch(STUDENT* root, char* key);	//키를 입력받아 해당키에 해당하는 노드의 정보를 출력하는 함수 
 
 int main()
 {
-	char* filename = "student2023.txt";
+
+	// 파일을 열어서 학번과 이름을 temp에 잠시 저장한 후 이진트리노드에 추가하기 
+	char* filename = "student2022.txt";
 	FILE* fp;
 	STUDENT* root = NULL, * temp, * find,*temp_parent,*parent_print;
 	char id[8];
 	char name[10];
 
 	fp = fopen(filename, "r");
-	if (fp == NULL) {
+	if (fp == NULL) { // 파일 존재 오류 처리 
 		perror(filename);
 		return 1;
-	}	// 파일 존재 오류 처리 
+	}	
 
-
-	while (fscanf(fp, "%s", id) != EOF) {
-		temp = (STUDENT*)malloc(sizeof(STUDENT));
-		strcpy(temp->id,id);
-		fscanf(fp, "%s", temp->name);
-		temp->left = NULL;	
+	while (fscanf(fp, "%s", id) != EOF) {	//학번 id라는 버퍼에 저장 
+		temp = (STUDENT*)malloc(sizeof(STUDENT));	// 노드 구조체
+		strcpy(temp->id,id);	// 노드 구조체의 멤버변수 id에 저장
+		fscanf(fp, "%s", temp->name);	//이름을 노드 구조체의 멤버변수 name에 저장
+		temp->left = NULL;	// 자식, 부모노드는 아직 모르기에 NULL 저장 
 		temp->right = NULL;
 		temp->parent = NULL;
 
-		//printf("%s %s\n", temp->id, temp->name);
-
-		// 이진트리 구현함 
-		insert_node(&root, temp);	// 구조체에 학번이랑 이름은 채워지고, right랑 left는 아직 안 채운 상태의 노드를 삽입하기 
+		//printf("%s %s\n", temp->id, temp->name); // 저장이 잘 되었는지 확인 
+		insert_node(&root, temp);	//노드 구조체를 이진트리에 삽입 
 	}
-
 	fclose(fp);
 
-
+	// 이진트리 활용 프로그램 시작 
 	int menu = 0; //메뉴 번호를 저장하는 변수
 	while (menu != 8) {
-		printf("1: 전체 노드 프린트(전위운행ver)\n");
-		printf("2: 노드 삭제하기\n");
-		printf("8: 프로그램 종료\n");
+		printf("1: 전체 노드 프린트(중위운행)\n");
+		printf("2: 전위운행\n");
+		printf("3: 후위운행\n");
+		printf("4: 학번으로 정보 검색하기\n");
+		printf("5: 노드 삭제하기\n");
+		printf("6: 프로그램 종료\n");
 		printf("메뉴를 선택하세요! >> ");
 		scanf("%d", &menu);
 
-		if (menu == 1) {
+		if (menu == 1) {	// 중위순회
 			in_order(root);
 		}
 
-		else if (menu == 2) {
+		else if (menu == 2) {	// 전위순회
+			pre_order(root);
+		}
+
+		else if (menu == 3) {	// 후위순회
+			post_order(root);
+		}
+
+		else if (menu == 4) {	// 키 입력받아서 해당 학생의 정보 출력하기 
+			printf("input id for search!!\n");
+			scanf("%s", id);
+
+			find = btsearch(root, id);	// 키가 어느 구조체에 있는지, 구조체 주소를 find에 반환
+			if (find == NULL)
+				printf("not found!\n");
+			else
+				print_node(find);
+		}
+
+		else if (menu == 5) {	// 키를 입력받아 노드 삭제하기 
 			printf("삭제할 부모 노드의 키(학번)을 입력하세요! >> ");
 			scanf("%s", id);
 
-			find = btsearch(root, id);
-
+			find = btsearch(root, id);	// 키가 어느 구조체에 있는지, 구조체 주소를 find에 반환
 			if (find == NULL)
 				printf("not found!\n");
 			else
 				delete(find);
 		}
 
-	else if (menu == 4) {
-		printf("input id for search!!\n");
-		scanf("%s", id);
-		find = btsearch(root, id);
-		if (find == NULL)
-			printf("not found!\n");
-		else
-			print_node(find);
-	}
+		else if (menu == 6) {	// 프로그램 종료
+			exit(1);
+		}
 
-	else if (menu == 5) {
-		in_order(root);
+		else {	//입력 오류
+			printf("숫자를 다시 입력해주셔야 합니다. 아무 숫자를 누른 뒤 메뉴를 실행하세요!\n");
+			scanf("%d", &menu);
+		}
+		printf("\n");
 	}
-
-	else if (menu == 8) {
-		exit(1);
-	}
-
-	else {
-		printf("숫자를 다시 입력해주세요! >> ");
-		break;
-	}
-	printf("\n");
-}
 }
 
-void insert_node(STUDENT** root, STUDENT* node) { //왜 이중포인터 root씀?
+void insert_node(STUDENT** root, STUDENT* node) { //왜 이중포인터 root씀? -> strcopy를 5번이나 해야해서? 
 	STUDENT* cur;	
 
 	if (*root == NULL) {	// 처음 노드를 심을 때!
@@ -117,10 +123,9 @@ void insert_node(STUDENT** root, STUDENT* node) { //왜 이중포인터 root씀?
 			cur->right = node;
 			node->parent = cur;
 		}
-
 	}
 
-	else{ //if (strcmp(cur->id, node->id) > 0)
+	else if (strcmp(cur->id, node->id) > 0) { //if (strcmp(cur->id, node->id) > 0)
 		if (cur->left != NULL)
 			insert_node(&cur->left, node);
 		else {
@@ -130,38 +135,40 @@ void insert_node(STUDENT** root, STUDENT* node) { //왜 이중포인터 root씀?
 	}
 }
 
+/*------------------ 함수정의------------------*/
 
 void print_node(STUDENT* node) {
-	printf("%s %s 부모노드: %s\n", node->id, node->name, node->parent);
+	printf("%s %s	부모노드: %s\n", node->id, node->name, node->parent);
 }
 
-STUDENT* btsearch(STUDENT* root, char* key) {
-	if (root == NULL)	// 도대체 root가 NULL인 것은 무엇을 의미하는 것인지 모르겠음. 	
-		return NULL;
-	/*-------------------------*/
-	if (!strcmp(root->id, key)) // 한 번에 id랑 key랑 일치하면, 더 이상 더 찾을 필요없쥐~ 찾은 키가 있는 주소를 반환해 
-		return root;
-	else if (strcmp(root->id, key) > 0) { // root가 더 크면! 그 왼쪽만 탐색하면 돼 
-		btsearch(root->left, key);
-	}
-	else { //(strcmp(root->id, key) < 0) // root가 더 작으면! 그 오른쪽만 탐색하면 돼 
-		btsearch(root->right, key);
-	}
-}
-
-
-
-void in_order(STUDENT* node) { // 전위탐색이라 작은 것 부터 출력하는 거임 -> left에서 right 로 출력하면 됨
-	if (node == NULL)	//? node가 NULL이라는 말은, 그 안에 아무것도 저장되어 있지 않다는 것? 그럴 수가 있나? 애초에 insert할 때 꽉 채워진 node를 삽입하자나 ...
+void in_order(STUDENT* node) {
+	if (node == NULL)	// 빈 이진트리
 		return;
 	in_order(node->left);
 	print_node(node);	// root부터 출력해야겠네 -> 즉슨 매개변수 node는 거의 rootnode라고 해도 무방하겠네 
 	in_order(node->right);
 }
 
-void delete(STUDENT* node) {	//부모노드에서 어느 방향 자식 노드를 삭제할지 (direction 1: 왼쪽, 2: 오른쪽)
-	STUDENT* delete_parent;
-	delete_parent = node->parent;
+void pre_order(STUDENT* node) {
+	if (node == NULL)	
+		return;
+	print_node(node);	// root부터 출력해야 전체 노드가 출력되겠네 -> 매개변수 node는 거의 rootnode로 받아야한다고 해도 무방하겠네 
+	pre_order(node->left);
+	pre_order(node->right);
+}
+
+void post_order(STUDENT * node) {
+	if (node == NULL)
+		return;
+	post_order(node->left);
+	post_order(node->right);
+	print_node(node);
+}
+
+
+void delete(STUDENT* node) {
+	STUDENT* delete_parent;	// 삭제할 노드의 부모노드 포인터
+	delete_parent = node->parent;	
 
 	// 자식노드가 없을 때 
 	if (node->left == NULL && node->right == NULL) {
@@ -173,14 +180,15 @@ void delete(STUDENT* node) {	//부모노드에서 어느 방향 자식 노드를
 		else if (delete_parent->right == node) {
 			delete_parent->right = NULL;
 		}
-
 		free(node);
 	}
 
 	// 자식노드가 있을 때
 	else {
+		/*-------------------자식노드가 한 개일 때-------------------*/
 		// 자식 노드가 왼쪽에만 있을 때(자식노드 하나)
 		if (node->right == NULL) {
+			printf("자식 노드가 하나뿐입니다.\n");
 			STUDENT* ltemp = node->left;
 			strcpy(node->id, ltemp->id);
 			strcpy(node->name, ltemp->name);
@@ -190,6 +198,7 @@ void delete(STUDENT* node) {	//부모노드에서 어느 방향 자식 노드를
 
 		// 자식 노드가 오른쪽에만 있을 때(자식노드 하나)
 		else if (node->left == NULL) {
+			printf("자식 노드가 하나뿐입니다.\n");
 			STUDENT* rtemp = node->right;
 			strcpy(node->id, rtemp->id);
 			strcpy(node->name, rtemp->name);
@@ -197,17 +206,19 @@ void delete(STUDENT* node) {	//부모노드에서 어느 방향 자식 노드를
 			free(rtemp);
 		}
 
+
+		/*-------------------자식노드가 두 개일 때-------------------*/
 		//자식 노드가 둘다 있을 때 (자식노드 두개)
 		//루트노드에서 가장 가까운 오른쪽을 올리기로 했다! (원래는 가장 가까운 왼쪽을 올려도 됨)
 		else {
 			STUDENT* ltemp = node->left;
 			STUDENT* rtemp = node->right;
 			STUDENT* parent_endtemp;	//가장 왼쪽의 노드의 부모노드  
-			STUDENT* endtemp=NULL;	//가장 왼쪽노드
+			STUDENT* endtemp = NULL;	//가장 왼쪽노드
 			if (rtemp->left == NULL) {	// right의 왼쪽 노드가 없다면 오른쪽 노드가 바로 올라가고,
 				strcpy(node->id, rtemp->id);
 				strcpy(node->name, rtemp->name);
-				node->right = rtemp->right;
+				node->right = rtemp->right;	
 				free(rtemp);
 			}
 			else { // right의 왼쪽 노드가 있다면 가장 왼쪽 노드로 가서 걔가 올라감 
@@ -218,8 +229,22 @@ void delete(STUDENT* node) {	//부모노드에서 어느 방향 자식 노드를
 				strcpy(node->id, endtemp->id);
 				strcpy(node->name, endtemp->name);
 				parent_endtemp->left = NULL;
-				free(endtemp);			
+				free(endtemp);
 			}
 		}
+	}
+}
+
+STUDENT* btsearch(STUDENT* root, char* key) {
+	if (root == NULL)	 	
+		return NULL;
+
+	if (!strcmp(root->id, key)) // 한 번에 id랑 key랑 일치하면, 더 이상 더 찾을 필요없쥐~ 찾은 키가 있는 주소를 반환해 
+		return root;
+	else if (strcmp(root->id, key) > 0) { // root가 더 크면! root기준 왼쪽만 탐색하면 돼 
+		btsearch(root->left, key);	// !strcmp(root->id, key)일 때까지 반복!
+	}
+	else { //(strcmp(root->id, key) < 0) // root가 더 작으면! root 오른쪽만 탐색하면 돼 
+		btsearch(root->right, key);
 	}
 }
