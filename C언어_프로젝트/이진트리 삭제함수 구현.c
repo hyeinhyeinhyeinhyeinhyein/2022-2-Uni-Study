@@ -181,28 +181,45 @@ void delete(STUDENT* node) {	//부모노드에서 어느 방향 자식 노드를
 	else {
 		// 자식 노드가 왼쪽에만 있을 때(자식노드 하나)
 		if (node->right == NULL) {
-			STUDENT* rtemp = node->left;
-			strcpy(node->id, rtemp->id);
-			strcpy(node->name, rtemp->name);
+			STUDENT* ltemp = node->left;
+			strcpy(node->id, ltemp->id);
+			strcpy(node->name, ltemp->name);
 			node->left = NULL;
-			free(rtemp);
+			free(ltemp);
 		}
 
 		// 자식 노드가 오른쪽에만 있을 때(자식노드 하나)
 		else if (node->left == NULL) {
-			STUDENT* ltemp = node->right;
-			strcpy(node->id, ltemp->id);
-			strcpy(node->name, ltemp->name);
-			node->right = NULL;
-			free(ltemp);
-		}
-
-		//자식 노드가 둘다 있을 때 (자식노드 두개)
-		else {
 			STUDENT* rtemp = node->right;
 			strcpy(node->id, rtemp->id);
 			strcpy(node->name, rtemp->name);
+			node->right = NULL;
 			free(rtemp);
+		}
+
+		//자식 노드가 둘다 있을 때 (자식노드 두개)
+		//루트노드에서 가장 가까운 오른쪽을 올리기로 했다! (원래는 가장 가까운 왼쪽을 올려도 됨)
+		else {
+			STUDENT* ltemp = node->left;
+			STUDENT* rtemp = node->right;
+			STUDENT* parent_endtemp;	//가장 왼쪽의 노드의 부모노드  
+			STUDENT* endtemp=NULL;	//가장 왼쪽노드
+			if (rtemp->left == NULL) {	// right의 왼쪽 노드가 없다면 오른쪽 노드가 바로 올라가고,
+				strcpy(node->id, rtemp->id);
+				strcpy(node->name, rtemp->name);
+				node->right = rtemp->right;
+				free(rtemp);
+			}
+			else { // right의 왼쪽 노드가 있다면 가장 왼쪽 노드로 가서 걔가 올라감 
+				parent_endtemp = rtemp;
+				while (endtemp->left != NULL) {
+					endtemp = parent_endtemp->left;
+				}
+				strcpy(node->id, endtemp->id);
+				strcpy(node->name, endtemp->name);
+				parent_endtemp->left = NULL;
+				free(endtemp);			
+			}
 		}
 	}
 }
