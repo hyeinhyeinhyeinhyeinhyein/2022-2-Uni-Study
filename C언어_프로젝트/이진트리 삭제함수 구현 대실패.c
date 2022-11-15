@@ -1,3 +1,5 @@
+// 노드 구조체에 부모노드를 끼워넣으려고 했는데 부모노드를 구하는 방법을 모르겠음 ㅠ
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
