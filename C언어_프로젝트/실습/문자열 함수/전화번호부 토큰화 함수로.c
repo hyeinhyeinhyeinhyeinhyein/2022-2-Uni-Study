@@ -30,7 +30,7 @@ void main() {
 
 	FILE* fp; // 전화번호부 파일 포인터 
 	char* path = "c:\\temp\\address.txt"; // 전화번호부가 저장될 위치
-	char buffer[100]; // 파일 내용을 출력할 때 필요한 버퍼
+	char buffer[100]; // 파일 내용을 출력할 때 필요한 버퍼 
 
 	char whatfind[10]; // bsearch로 찾을 이름 
 	char* ptr; // bsearch가 반환하는 포인터 
