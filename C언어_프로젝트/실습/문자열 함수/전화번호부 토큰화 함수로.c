@@ -63,6 +63,7 @@ void main() {
 		}
 		fclose(fp); // 파일에서 다 읽어왔으면 파일을 닫음
 
+		qsort(hyeinbook, NUMBER_OF_BOOK, sizeof(Phonebook), namecompare);
 		// 파일에서 읽어온 정보들을 구조체에 저장했고, 저장해둔 내용을 콘솔에 출력하기 위해 다음과 같이 동작함 
 		for (int i = 0; i < p; i++) {
 			printf("이름: %s\n", hyeinbook[i].bookname);
