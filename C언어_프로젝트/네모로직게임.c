@@ -47,10 +47,12 @@ int main() {
 	// 배열에 숫자 집어넣기 
 	for (int i = 0; i < height; i++)
 	{
-		fgets(buff, SIZE, drawfp);
+		//fgets(buff, SIZE, drawfp);
 		for (int j = 0; j < width; j++)
 		{
-			ary[i][j] = fgetc(drawfp);
+			ary[i][j] = (int)fgetc(drawfp);
+			if(ary[i][j]==10) ary[i][j] = (int)fgetc(drawfp);
+
 		}
 	}
 
@@ -61,23 +63,8 @@ int main() {
 		new_ary[i] = (int*)malloc(sizeof(int) * height);
 	}
 
-	// 힌트를 화면에 출력하기
-	
-
-
-
-
-
-	print_ary(new_ary, height, width); // 새화면 출력 
+	//print_ary(new_ary, height, width); // 새화면 출력 
 	print_ary(ary,height,width); // 배열 출력
-
-
-
-
-
-
-
-
 
 	fclose(drawfp);
 	fclose(convertfp);
@@ -92,6 +79,59 @@ int main() {
 //배열 전체 출력
 void print_ary(int** ary, int height, int width)
 {
+
+	int hint = 0; // 출력할 힌트 
+	int hindex = 0;
+	int windex = 0;
+
+	// 힌트를 저장하는 배열 메모리 할당하기
+	int ** hint_ary = (int**)malloc(sizeof(int*) * width);
+	for (int i = 0; i < width; i++)
+	{
+		hint_ary[i] = (int*)malloc(sizeof(int) * height);
+	}
+
+	// 힌트 저장 배열 초기화 
+	for (int j = 0; j < width; j++)
+	{
+		for (int i = 0; i < height; i++)
+		{
+			hint_ary[i][j] = NULL;
+		}
+	}
+
+	// 힌트 출력하기 // 
+	for(int j=0;j<width;j++)
+	{ 
+		for (int i = 0; i < height; i++)
+		{
+			if (ary[i][j] == '1') {
+				hint++;
+			}
+			else {
+				hint_ary[hindex][windex] = hint;
+				hint = 0;
+				hindex++;
+			}
+		}
+		hint_ary[hindex][windex] = hint;
+		hint = 0;
+		windex++;
+		hindex = 0;
+	}
+
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			if (hint_ary[i][j] != NULL)	printf("%d|", hint_ary[i][j]);
+			else printf("0|");
+		
+		}
+		printf("\n");
+	}
+
+
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
@@ -102,4 +142,17 @@ void print_ary(int** ary, int height, int width)
 		}
 		printf("\n");
 	}
+
+	/*
+	// 숫자로 출력하기 
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			printf("%c", ary[i][j]);
+
+		}
+		printf("\n");
+	}
+	*/
 }
