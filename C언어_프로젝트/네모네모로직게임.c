@@ -54,8 +54,29 @@ int main() {
 		}
 	}
 
+	int** new_ary;	//사용자가 그림을 그릴 이차원 배열 메모리 할당하기 
+	new_ary = (int**)malloc(sizeof(int*) * width);
+	for (int i = 0; i < width; i++)
+	{
+		new_ary[i] = (int*)malloc(sizeof(int) * height);
+	}
+
+	// 힌트를 화면에 출력하기
 	
+
+
+
+
+
+	print_ary(new_ary, height, width); // 새화면 출력 
 	print_ary(ary,height,width); // 배열 출력
+
+
+
+
+
+
+
 
 
 	fclose(drawfp);
