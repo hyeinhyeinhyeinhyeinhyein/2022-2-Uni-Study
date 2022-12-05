@@ -2,6 +2,8 @@
 #include <malloc.h>
 #define SIZE 100
 
+void print_ary(int* ary, int height, int width);
+
 int main() {
 	FILE* drawfp;	//이진수로 되어있는 그림 파일 포인터 
 	FILE* convertfp;//이진수그림을 □or■로 바꿔 저장하는 그림 파일 포인터 
@@ -35,12 +37,25 @@ int main() {
 
 
 	// 숫자를 그림화하기 > 배열에 정보 저장하기 
-	int** ary;
+	int** ary;	//이차원 배열 메모리 할당하기 
 	ary = (int**)malloc(sizeof(int*) * width);
 	for (int i= 0; i < width; i++)
 	{
 		ary[i] = (int*)malloc(sizeof(int) * height);
 	}
+
+	// 배열에 숫자 집어넣기 
+	for (int i = 0; i < height; i++)
+	{
+		fgets(buff, SIZE, drawfp);
+		for (int j = 0; j < width; j++)
+		{
+			ary[i][j] = fgetc(drawfp);
+		}
+	}
+
+	
+	print_ary(ary,height,width); // 배열 출력
 
 
 	fclose(drawfp);
@@ -50,4 +65,20 @@ int main() {
 		free(ary[i]);
 	}
 	free(ary);
+}
+
+
+//배열 전체 출력
+void print_ary(int** ary, int height, int width)
+{
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			if (ary[i][j] == '1') printf("■");
+			else printf("□");
+			//printf("%c", ary[i][j]);
+		}
+		printf("\n");
+	}
 }
