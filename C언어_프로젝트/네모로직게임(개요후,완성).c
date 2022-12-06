@@ -26,9 +26,7 @@ int main() {
 	int choose_mode;
 	int width, height;
 	printf("모드를 선택하세요. [1]easy [2]normal [3]hard >> ");
-	choose_file = getchar();
-	printf("\n");
-
+	choose_file = getchar(); printf("\n");
 	switch (choose_file)
 	{
 	case '1':
@@ -42,22 +40,17 @@ int main() {
 
 	width = cal_width(&drawfp);
 	height = cal_height(&drawfp);
-	//printf("가로개수: %d, 세로갯수: %d\n", width, height);
-
 	int** ary = NULL; 	ary = malloc_ary(ary, width, height);
 	int** new_ary = NULL;	new_ary = malloc_ary(new_ary, width, height);
-
 	putInfo(&drawfp, ary, width, height);
 	putnew(new_ary, width, height);
 
 	printf("모드를 선택하세요. [1]일반모드 [2]타이머모드 [3]그림수정 >> ");
-	choose_mode = getch();
-	printf("\n");
+	choose_mode = getch(); printf("\n");
 	switch (choose_mode)
 	{
 	case '1': //일반 모드 
 		printf("일반모드를 시작합니다. >>\n");
-		print_hint(ary, new_ary, width, height);
 		game(ary, new_ary, width, height);
 		break;
 
@@ -71,7 +64,14 @@ int main() {
 	}
 
 	fclose(drawfp);
-
+	for (int i = 0; i < width; i++) {
+		free(ary[i]);
+	}
+	free(ary);
+	for (int i = 0; i < width; i++) {
+		free(new_ary[i]);
+	}
+	free(new_ary);
 }
 
 
@@ -322,6 +322,7 @@ void change_itoa(int** ary, int width, int for_height) {
 }
 
 void game(int** ary, int** new_ary, int width, int height) {
+	print_hint(ary, new_ary, width, height);
 	int mode;
 	int x = 0;
 	int y = 0;
