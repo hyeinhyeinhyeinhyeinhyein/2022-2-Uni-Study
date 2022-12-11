@@ -1,5 +1,6 @@
 #include <iostream>
-#include <string>
+#include <windows.h>
+
 using namespace std;
 
 class Game {
@@ -98,7 +99,7 @@ void Game::myturn() {
 				ytmp = i;
 				xtmp = j;
 				
-				//아래쪽
+				//위쪽
 				if (board[--ytmp][xtmp] == 'O') {
 					numberO++;
 					while (board[--ytmp][xtmp] == 'O')
@@ -109,8 +110,8 @@ void Game::myturn() {
 					if (board[ytmp][xtmp] == NULL) {
 						flipinfo[2][0] = ytmp;
 						flipinfo[2][1] = xtmp;
-						flipinfo[2][2] = i;
-						flipinfo[2][3] = j-1;
+						flipinfo[2][2] = i-1;
+						flipinfo[2][3] = j;
 						flipinfo[2][4] = numberO;
 						board[ytmp][xtmp] = numberO + 48;
 					}
@@ -119,7 +120,7 @@ void Game::myturn() {
 				ytmp = i;
 				xtmp = j;
 				
-				//위쪽
+				//아래
 				if (board[++ytmp][xtmp] == 'O') {
 					numberO++;
 					while (board[++ytmp][xtmp] == 'O')
@@ -229,6 +230,7 @@ void Game::myturn() {
 
 
 	}
+	system("cls");
 	printBoard();
 	// 판 복사본 만들기 
 	for (int i = 0; i < 8; i++) {
@@ -239,9 +241,10 @@ void Game::myturn() {
 	int xpos; //돌의 x좌표
 	int ypos; //돌의 x좌표
 	cout << "x좌표를 입력하세요.>> ";
-	cin >> xpos;
-	cout << "y좌표를 입력하세요.>> ";
 	cin >> ypos;
+	cout << "y좌표를 입력하세요.>> ";
+	cin >> xpos;
+
 	board[xpos][ypos] = 'X';
 
 	for (int findx = 0; findx < 8; findx++) {
@@ -258,14 +261,14 @@ void Game::myturn() {
 					board[flipinfo[findx][2]][flipinfo[findx][3] + i] = 'X';
 				}
 			}
-			if (findx == 2) {//아래쪽
-				for (int i = 0; i < flipinfo[findx][4]; i++) {
-					board[flipinfo[findx][2]+i][flipinfo[findx][3]] = 'X';
-				}
-			}
-			if (findx == 3) {//위쪽
+			if (findx == 2) {//위쪽
 				for (int i = 0; i < flipinfo[findx][4]; i++) {
 					board[flipinfo[findx][2]-i][flipinfo[findx][3]] = 'X';
+				}
+			}
+			if (findx == 3) {//아래쪽
+				for (int i = 0; i < flipinfo[findx][4]; i++) {
+					board[flipinfo[findx][2]+i][flipinfo[findx][3]] = 'X';
 				}
 			}
 			if (findx == 4) {////왼쪽대각선아래 
@@ -297,7 +300,7 @@ void Game::myturn() {
 		}
 	}
 
-
+	system("cls");
 	printBoard();
 }
 
